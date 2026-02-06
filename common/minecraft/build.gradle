@@ -1,22 +1,16 @@
 plugins {
-    alias(libs.plugins.loom)
+    alias(libs.plugins.forgegradle)
 }
 
-sourceCompatibility = 21
-targetCompatibility = 21
+sourceCompatibility = 17
+targetCompatibility = 17
 
-repositories {
-    maven { url 'https://maven.fabricmc.net/' }
+minecraft {
+    mappings channel: 'official', version: minecraftVersion
 }
 
 dependencies {
-    // https://modmuss50.me/fabric.html
-    minecraft 'com.mojang:minecraft:1.21.11'
-    mappings loom.officialMojangMappings()
+    minecraft "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
 
     implementation project(':common')
-}
-
-remapJar {
-    targetNamespace = 'named'
 }
