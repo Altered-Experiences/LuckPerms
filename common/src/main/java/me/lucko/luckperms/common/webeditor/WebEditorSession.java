@@ -36,6 +36,7 @@ import me.lucko.luckperms.common.model.Track;
 import me.lucko.luckperms.common.model.User;
 import me.lucko.luckperms.common.plugin.LuckPermsPlugin;
 import me.lucko.luckperms.common.sender.Sender;
+import me.lucko.luckperms.common.webeditor.local.LocalWebEditorServer;
 import me.lucko.luckperms.common.webeditor.socket.WebEditorSocket;
 
 import java.io.IOException;
@@ -132,7 +133,11 @@ public class WebEditorSession {
         }
 
         // form a url for the editor
-        String url = this.plugin.getConfiguration().get(ConfigKeys.WEB_EDITOR_URL_PATTERN) + id;
+        String urlPattern = this.plugin.getConfiguration().get(ConfigKeys.WEB_EDITOR_URL_PATTERN);
+        if (this.plugin.getConfiguration().get(ConfigKeys.LOCAL_WEB_EDITOR_ENABLED)) {
+            urlPattern = LocalWebEditorServer.resolvePublicUrl(this.plugin);
+        }
+        String url = urlPattern + id;
         Message.EDITOR_URL.send(this.sender, url);
 
         // schedule socket close
