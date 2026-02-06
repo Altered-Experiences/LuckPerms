@@ -167,9 +167,8 @@ public class FileActionLogger {
 
     public LogPage getLogPage(FilterList<Action> filters, @Nullable PageParameters page) throws IOException {
         List<LoggedAction> filtered = loadLog(filters)
-                .sorted(Comparator.comparing(LoggedAction::getTimestamp))
-                .collect(Collectors.toList())
-                .reversed();
+                .sorted(Comparator.comparing(LoggedAction::getTimestamp).reversed())
+                .collect(Collectors.toList());
 
         int size = filtered.size();
         List<LoggedAction> paginated = page != null ? page.paginate(filtered) : filtered;
