@@ -69,6 +69,7 @@ import me.lucko.luckperms.common.treeview.PermissionRegistry;
 import me.lucko.luckperms.common.verbose.VerboseHandler;
 import me.lucko.luckperms.common.webeditor.socket.WebEditorSocket;
 import me.lucko.luckperms.common.webeditor.store.WebEditorStore;
+import me.lucko.luckperms.common.webeditor.local.LocalWebEditorServer;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.platform.Health;
 import okhttp3.OkHttpClient;
@@ -106,6 +107,7 @@ public abstract class AbstractLuckPermsPlugin implements LuckPermsPlugin {
     private BytebinClient bytebin;
     private BytesocksClient bytesocks;
     private WebEditorStore webEditorStore;
+    private LocalWebEditorServer localWebEditorServer;
     private TranslationRepository translationRepository;
     private FileWatcher fileWatcher = null;
     private Storage storage;
@@ -177,6 +179,14 @@ public abstract class AbstractLuckPermsPlugin implements LuckPermsPlugin {
                 "luckperms/editor"
         );
         this.webEditorStore = new WebEditorStore(this);
+        if (getConfiguration().get(ConfigKeys.LOCAL_WEB_EDITOR_ENABLED)) {
+            this.localWebEditorServer = new LocalWebEditorServer(this, this.httpClient);
+            try {
+                this.localWebEditorServer.start();
+            } catch (IOException e) {
+                getLogger().warn("Failed to start local web editor proxy", e);
+            }
+        }
 
         // init translation repo and update bundle files
         this.translationRepository = new TranslationRepository(this);
@@ -287,6 +297,10 @@ public abstract class AbstractLuckPermsPlugin implements LuckPermsPlugin {
             if (!socket.isClosed()) {
                 socket.close();
             }
+        }
+        if (this.localWebEditorServer != null) {
+            this.localWebEditorServer.stop();
+            this.localWebEditorServer = null;
         }
 
         // shutdown permission vault and verbose handler tasks

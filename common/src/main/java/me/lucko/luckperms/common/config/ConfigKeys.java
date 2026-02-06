@@ -791,6 +791,31 @@ public final class ConfigKeys {
     public static final ConfigKey<String> WEB_EDITOR_URL_PATTERN = stringKey("web-editor-url", "https://luckperms.net/editor/");
 
     /**
+     * If the local web editor proxy should be enabled
+     */
+    public static final ConfigKey<Boolean> LOCAL_WEB_EDITOR_ENABLED = booleanKey("local-web-editor.enabled", false);
+
+    /**
+     * The bind address for the local web editor proxy
+     */
+    public static final ConfigKey<String> LOCAL_WEB_EDITOR_BIND_ADDRESS = stringKey("local-web-editor.bind-address", "127.0.0.1");
+
+    /**
+     * The bind port for the local web editor proxy
+     */
+    public static final ConfigKey<Integer> LOCAL_WEB_EDITOR_PORT = key(c -> c.getInteger("local-web-editor.port", 8080));
+
+    /**
+     * The public URL for the local web editor proxy
+     */
+    public static final ConfigKey<String> LOCAL_WEB_EDITOR_PUBLIC_URL = stringKey("local-web-editor.public-url", "");
+
+    /**
+     * The upstream URL to proxy for the local web editor
+     */
+    public static final ConfigKey<String> LOCAL_WEB_EDITOR_UPSTREAM_URL = stringKey("local-web-editor.upstream-url", "https://luckperms.net/editor/");
+
+    /**
      * The URL of the verbose viewer
      */
     public static final ConfigKey<String> VERBOSE_VIEWER_URL_PATTERN = stringKey("verbose-viewer-url", "https://luckperms.net/verbose/");
