@@ -12,8 +12,8 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'org.cadixdev.licenser'
 
-    group = 'me.lucko.luckperms'
-    version = '5.5-SNAPSHOT'
+    group = 'org.sfortza.awperms'
+    version = '1.0-SNAPSHOT'
 
     sourceCompatibility = 17
     targetCompatibility = 17
@@ -36,24 +36,9 @@ subprojects {
         from '../LICENSE.txt'
     }
 
-    def determinePatchVersion = {
-        // get the name of the last tag
-        def tagInfo = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'describe', '--tags'
-            standardOutput = tagInfo
-        }
-        tagInfo = tagInfo.toString()
-
-        if (!tagInfo.contains('-')) {
-            return 0
-        }
-        return tagInfo.split("-")[1]
-    }
-
-    project.ext.majorVersion = '5'
-    project.ext.minorVersion = '5'
-    project.ext.patchVersion = determinePatchVersion()
+    project.ext.majorVersion = '1'
+    project.ext.minorVersion = '0'
+    project.ext.patchVersion = '0'
     project.ext.apiVersion = project.ext.majorVersion + '.' + project.ext.minorVersion
     project.ext.fullVersion = project.ext.apiVersion + '.' + project.ext.patchVersion
 
